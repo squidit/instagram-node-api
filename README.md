@@ -1,4 +1,4 @@
-# instagram-node-api
+# instagram-node-api [![Build Status](https://travis-ci.org/limafelipe/instagram-node-api.svg?branch=master)](https://travis-ci.org/limafelipe/instagram-node-api)
 **BETA** - A node wrapper to [Instagram API](https://www.instagram.com/developer/endpoints/) 😄
 
 ## Status
