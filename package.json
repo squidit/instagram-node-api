@@ -4,22 +4,27 @@
   "description": "Experimental wrapper to Instagram API in node",
   "main": "index.js",
   "dependencies": {
-    "eslint-config-airbnb": "^12.0.0",
+    "dotenv": "^2.0.0",
     "eslint": "^3.8.0",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
-    "got": "^6.5.0"
+    "got": "^6.5.0",
+    "lodash": "^4.16.4"
   },
   "devDependencies": {
     "eslint": "^3.8.0",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.4.1"
+    "eslint-plugin-react": "^6.4.1",
+    "mocha": "^3.1.2",
+    "nock": "^8.1.0",
+    "should": "^11.1.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/*.js -r './test/load-dotenv'"
   },
   "repository": {
     "type": "git",
