@@ -6,3 +6,9 @@ env:
   es6: true
   browser: true
   node: true
+globals:
+  describe: true
+  it: true
+  beforeEach: true
+rules:
+  import/no-extraneous-dependencies: 0
