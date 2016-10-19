@@ -62,6 +62,25 @@ class InstagramNodeApi extends EventEmitter {
         this.emit('error', response.body);
       });
   }
+
+  usersSelf() {
+    const url = `${baseUrl}/users/self`;
+    const options = Object.assign({}, defaultOptions, {
+      query: {
+        access_token: this.accessToken,
+      },
+    });
+
+    got.get(url, options)
+      .then(parseResponse)
+      .then(([data, , meta, remaining, limit]) => {
+        this.emit('data', data, meta, remaining, limit);
+        this.emit('finish', data, meta, remaining, limit);
+      })
+      .catch((response) => {
+        this.emit('error', response.body);
+      });
+  }
 }
 
 module.exports = InstagramNodeApi;
