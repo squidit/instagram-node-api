@@ -22,7 +22,7 @@ instagramNodeApi.on('error', (error) => { });
 
 ## Users
 #### Get information about the owner of the access_token.
-```
+```js
 instagramNodeApi.usersSelf();
 
 instagramNodeApi.on('data', (profile, meta, remaining, limit, result) => {
@@ -33,7 +33,7 @@ instagramNodeApi.on('finish', (profile, meta, remaining, limit, result) => {
 ```
 
 #### Get the most recent media published by the owner of the access_token..
-```
+```js
 instagramNodeApi.usersSelfMediaRecent();
 
 instagramNodeApi.on('data', (data, pagination, meta, remaining, limit, result) => {
