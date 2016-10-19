@@ -2,7 +2,8 @@
 **BETA** - A node wrapper to [Instagram API](https://www.instagram.com/developer/endpoints/) 😄
 
 ## Status
-[**GET** /users/self/media/recent](https://www.instagram.com/developer/endpoints/users/#get_users_media_recent_self) ➡️ *In development*.
+- [**GET** /users/self](https://www.instagram.com/developer/endpoints/users/#get_users_self) ➡️ *In development*.
+- [**GET** /users/self/media/recent](https://www.instagram.com/developer/endpoints/users/#get_users_media_recent_self) ➡️ *In development*.
 
 Another's coming soon.
 
@@ -10,9 +11,29 @@ Another's coming soon.
 `npm install --save instagram-node-api`
 
 ```js
-const const InstagramNodeApi = require('instagram-node-api');
+const InstagramNodeApi = require('instagram-node-api');
 
 const instagramNodeApi = new InstagramNodeApi(YOUR_ACCESS_TOKEN);
+
+instagramNodeApi.on('data', ([*]) => { });
+instagramNodeApi.on('finish', ([*]) => { });
+instagramNodeApi.on('error', (error) => { });
+```
+
+## Users
+#### Get information about the owner of the access_token.
+```
+instagramNodeApi.usersSelf();
+
+instagramNodeApi.on('data', (profile, meta, remaining, limit, result) => {
+});
+
+instagramNodeApi.on('finish', (profile, meta, remaining, limit, result) => {
+});
+```
+
+#### Get the most recent media published by the owner of the access_token..
+```
 instagramNodeApi.usersSelfMediaRecent();
 
 instagramNodeApi.on('data', (data, pagination, meta, remaining, limit, result) => {
