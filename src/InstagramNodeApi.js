@@ -21,15 +21,15 @@ class InstagramNodeApi extends EventEmitter {
     this.mediasCount = 0;
   }
 
-  instagramCalled() {
+  _instagramCalled() {
     this.callsCount += 1;
   }
 
-  mediasFounded(count) {
+  _mediasFounded(count) {
     this.mediasCount += count;
   }
 
-  buildResultObject() {
+  _buildResultObject() {
     return {
       totalMedias: this.mediasCount,
       totalCalls: this.callsCount,
@@ -45,17 +45,17 @@ class InstagramNodeApi extends EventEmitter {
       },
     });
 
-    this.instagramCalled();
+    this._instagramCalled();
     got.get(url, options)
       .then(parseResponse)
       .then(([data, pagination, meta, remaining, limit]) => {
-        this.mediasFounded(data.length);
-        this.emit('data', data, pagination, meta, remaining, limit, this.buildResultObject());
+        this._mediasFounded(data.length);
+        this.emit('data', data, pagination, meta, remaining, limit, this._buildResultObject());
 
         if (pagination && pagination.next_url) {
           this.usersSelfMediaRecent(pagination.next_url);
         } else {
-          this.emit('finish', data, pagination, meta, remaining, limit, this.buildResultObject());
+          this.emit('finish', data, pagination, meta, remaining, limit, this._buildResultObject());
         }
       })
       .catch((response) => {
