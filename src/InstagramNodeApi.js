@@ -36,6 +36,7 @@ class InstagramNodeApi extends EventEmitter {
     };
   }
 
+  /* USERS */
   usersSelfMediaRecent(nextUrl) {
     const url = nextUrl || `${baseUrl}/users/self/media/recent`;
     const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
@@ -76,6 +77,34 @@ class InstagramNodeApi extends EventEmitter {
       .then(([data, , meta, remaining, limit]) => {
         this.emit('data', data, meta, remaining, limit);
         this.emit('finish', data, meta, remaining, limit);
+      })
+      .catch((response) => {
+        this.emit('error', response.body);
+      });
+  }
+
+  /* TAGS */
+  tagsMediaRecent(tagName, nextUrl) {
+    const url = nextUrl || `${baseUrl}/tags/${tagName}/media/recent`;
+    const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
+      query: {
+        access_token: this.accessToken,
+        count: 33,
+      },
+    });
+
+    this._instagramCalled();
+    got.get(url, options)
+      .then(parseResponse)
+      .then(([data, pagination, meta, remaining, limit]) => {
+        this.mediasFounded(data.length);
+        this.emit('data', data, pagination, meta, remaining, limit, this.buildResultObject());
+
+        if (pagination && pagination.next_url) {
+          this.tagsMediaRecent(pagination.next_url);
+        } else {
+          this.emit('finish', data, pagination, meta, remaining, limit, this.buildResultObject());
+        }
       })
       .catch((response) => {
         this.emit('error', response.body);
