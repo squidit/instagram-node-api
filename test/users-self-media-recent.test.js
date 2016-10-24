@@ -8,7 +8,7 @@ describe('users self media recent', () => {
   mock();
 
   it('should return all medias with success', (done) => {
-    const instagramNodeApi = new InstagramNodeApi('30990380.31e9c33.aa42b1fd6f734d4ebf626f8eb5e315d7');
+    const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
     const medias = [];
     instagramNodeApi.usersSelfMediaRecent();
 
