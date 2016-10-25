@@ -7,46 +7,6 @@ const { TEST_INSTAGRAM_ACCESS_TOKEN } = process.env;
 describe('users self media recent', () => {
   mock();
 
-  it('should return all medias with success', (done) => {
-    const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
-    const medias = [];
-    instagramNodeApi.usersSelfMediaRecent();
-
-    instagramNodeApi.on('data', (data) => {
-      data.map(media => medias.push(media));
-    });
-
-    instagramNodeApi.on('finish', () => {
-      try {
-        medias.should.have.length(40);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-  });
-
-  it('should return pagination object with success', (done) => {
-    const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
-    const paginations = [];
-    instagramNodeApi.usersSelfMediaRecent();
-
-    instagramNodeApi.on('data', (data, pagination) => {
-      paginations.push(pagination);
-    });
-
-    instagramNodeApi.on('finish', () => {
-      try {
-        paginations.should.have.length(2);
-        paginations[0].should.have.property('next_url');
-        paginations[0].should.have.property('next_max_id');
-        paginations[1].should.be.empty();
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-  });
 
   it('should return meta object with success', (done) => {
     const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
@@ -121,6 +81,47 @@ describe('users self media recent', () => {
       try {
         result.should.have.property('totalCalls', 2);
         result.should.have.property('totalMedias', 40);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+
+  it('should return all medias with success', (done) => {
+    const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
+    const medias = [];
+    instagramNodeApi.usersSelfMediaRecent();
+
+    instagramNodeApi.on('data', (data) => {
+      data.map(media => medias.push(media));
+    });
+
+    instagramNodeApi.on('finish', () => {
+      try {
+        medias.should.have.length(40);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+
+  it('should return pagination object with success', (done) => {
+    const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
+    const paginations = [];
+    instagramNodeApi.usersSelfMediaRecent();
+
+    instagramNodeApi.on('data', (data, pagination) => {
+      paginations.push(pagination);
+    });
+
+    instagramNodeApi.on('finish', () => {
+      try {
+        paginations.should.have.length(2);
+        paginations[0].should.have.property('next_url');
+        paginations[0].should.have.property('next_max_id');
+        paginations[1].should.be.empty();
         done();
       } catch (error) {
         done(error);
