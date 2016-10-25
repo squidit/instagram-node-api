@@ -38,7 +38,7 @@ class InstagramNodeApi extends EventEmitter {
   }
 
   /* USERS */
-  usersSelfMediaRecent(nextUrl) {
+  usersSelfMediaRecent(nextUrl, limitDate) {
     const url = nextUrl || `${baseUrl}/users/self/media/recent`;
     const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
       query: {
@@ -51,11 +51,14 @@ class InstagramNodeApi extends EventEmitter {
     got.get(url, options)
       .then(parseResponse)
       .then(([data, pagination, meta, remaining, limit]) => {
-        this._mediasFounded(data.length);
-        this.emit('data', data, pagination, meta, remaining, limit, this._buildResultObject());
+        const filteredData = limitDate ? data.filter(item => convertInstagramDate(item.created_time) >= limitDate) : data;
+        const continueByFilter = filteredData.length === data.length;
+        this._mediasFounded(filteredData.length);
 
-        if (pagination && pagination.next_url) {
-          this.usersSelfMediaRecent(pagination.next_url);
+        this.emit('data', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
+
+        if (pagination && pagination.next_url && continueByFilter) {
+          this.usersSelfMediaRecent(pagination.next_url, limitDate);
         } else {
           this.emit('finish', data, pagination, meta, remaining, limit, this._buildResultObject());
         }
@@ -98,7 +101,7 @@ class InstagramNodeApi extends EventEmitter {
     got.get(url, options)
       .then(parseResponse)
       .then(([data, pagination, meta, remaining, limit]) => {
-        const filteredData = data.filter(item => convertInstagramDate(item.created_time) >= dateLimit);
+        const filteredData = dateLimit ? data.filter(item => convertInstagramDate(item.created_time) >= dateLimit) : data;
         const continueByFilter = data.length === filteredData.length;
 
         this._mediasFounded(filteredData.length);
