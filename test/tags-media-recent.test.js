@@ -6,7 +6,6 @@ const InstagramNodeApi = require('../');
 const { TEST_INSTAGRAM_ACCESS_TOKEN } = process.env;
 
 describe('users self media recent', () => {
-  mock();
   mockMediasRecent();
 
   describe('check if retrieve medias', () => {

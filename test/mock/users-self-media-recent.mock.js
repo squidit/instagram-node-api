@@ -26,7 +26,11 @@ module.exports = function usersSelfMediaRecentMock() {
         meta: {
           code: 200,
         },
-        data: Array.from(Array(33).keys()).map(() => ({ })),
+        data: Array.from(Array(33).keys()).map((item) => {
+          const initialDate = new Date('Tue Nov 22 2016 22:00:00 GMT-0200 (BRST)');
+          const datetime = (Date.parse(initialDate) - (item * 86400000)) / 1000;
+          return { created_time: datetime.toString() };
+        }),
       }, {
         'x-ratelimit-limit': '5000',
         'x-ratelimit-remaining': '4990',
@@ -42,7 +46,11 @@ module.exports = function usersSelfMediaRecentMock() {
         meta: {
           code: 200,
         },
-        data: Array.from(Array(7).keys()).map(() => ({ })),
+        data: Array.from(Array(7).keys()).map((item) => {
+          const initialDate = new Date('Thu Oct 20 2016 22:00:00 GMT-0200 (BRST)');
+          const datetime = (Date.parse(initialDate) - (item * 86400000)) / 1000;
+          return { created_time: datetime.toString() };
+        }),
       }, {
         'x-ratelimit-limit': '5000',
         'x-ratelimit-remaining': '4989',
