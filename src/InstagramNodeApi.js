@@ -1,6 +1,7 @@
 const EventEmitter = require('events');
 const got = require('got');
 const parseResponse = require('./parse-response');
+const convertInstagramDate = require('./shared-functions/convert-instagram-date');
 const {
   INSTAGRAM_API_PROTOCOL: instagramApiProtocol,
   INSTAGRAM_API_HOST: instagramApiHost,
@@ -84,7 +85,7 @@ class InstagramNodeApi extends EventEmitter {
   }
 
   /* TAGS */
-  tagsMediaRecent(tagName, nextUrl) {
+  tagsMediaRecent(tagName, nextUrl, dateLimit) {
     const url = nextUrl || `${baseUrl}/tags/${tagName}/media/recent`;
     const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
       query: {
@@ -97,13 +98,16 @@ class InstagramNodeApi extends EventEmitter {
     got.get(url, options)
       .then(parseResponse)
       .then(([data, pagination, meta, remaining, limit]) => {
-        this.mediasFounded(data.length);
-        this.emit('data', data, pagination, meta, remaining, limit, this.buildResultObject());
+        const filteredData = data.filter(item => convertInstagramDate(item.created_time) >= dateLimit);
+        const continueByFilter = data.length === filteredData.length;
 
-        if (pagination && pagination.next_url) {
-          this.tagsMediaRecent(pagination.next_url);
+        this._mediasFounded(filteredData.length);
+        this.emit('data', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
+
+        if (pagination && pagination.next_url && continueByFilter) {
+          this.tagsMediaRecent(undefined, pagination.next_url, dateLimit);
         } else {
-          this.emit('finish', data, pagination, meta, remaining, limit, this.buildResultObject());
+          this.emit('finish', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
         }
       })
       .catch((response) => {
