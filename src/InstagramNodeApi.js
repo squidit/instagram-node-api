@@ -92,7 +92,10 @@ class InstagramNodeApi extends EventEmitter {
   }
 
   /* TAGS */
-  tagsMediaRecent(tagName, nextUrl, dateLimit) {
+  tagsMediaRecent(tagName, dateLimit, nextUrl) {
+    if (!tagName) {
+      this.emit('error', new Error('Invalid tagName'));
+    }
     const url = nextUrl || `${baseUrl}/tags/${tagName}/media/recent`;
     const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
       query: {
@@ -114,7 +117,7 @@ class InstagramNodeApi extends EventEmitter {
         this.emit('data', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
 
         if (pagination && pagination.next_url && continueByFilter) {
-          this.tagsMediaRecent(undefined, pagination.next_url, dateLimit);
+          this.tagsMediaRecent(tagName, dateLimit, pagination.next_url);
         } else {
           this.emit('finish', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
         }

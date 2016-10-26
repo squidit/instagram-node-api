@@ -7,10 +7,21 @@ const { TEST_INSTAGRAM_ACCESS_TOKEN } = process.env;
 describe('tags media recent', () => {
   mockMediasRecent();
 
+  it('should return a error when tag name is not informed', (done) => {
+    const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
+    try {
+      instagramNodeApi.tagsMediaRecent();
+      done('passed');
+    } catch (err) {
+      err.message.should.be.eql('Invalid tagName');
+      done();
+    }
+  });
+
   describe('check if retrieve medias', () => {
     it('due 2016-11-01 returns 22 medias in 1 call', (done) => {
       const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
-      instagramNodeApi.tagsMediaRecent('teste', undefined, new Date('2016-11-02'));
+      instagramNodeApi.tagsMediaRecent('teste', new Date('2016-11-02'));
 
       instagramNodeApi.on('finish', (data, paginations, meta, remaining, limit, result) => {
         try {
@@ -25,7 +36,7 @@ describe('tags media recent', () => {
 
     it('due 2016-10-16 returns 38 medias in 2 calls', (done) => {
       const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
-      instagramNodeApi.tagsMediaRecent('teste', undefined, new Date('2016-10-17'));
+      instagramNodeApi.tagsMediaRecent('teste', new Date('2016-10-17'));
 
       instagramNodeApi.on('finish', (data, paginations, meta, remaining, limit, result) => {
         try {
