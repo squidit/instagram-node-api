@@ -5,6 +5,7 @@
 ## Status
 - [**GET** /users/self](https://www.instagram.com/developer/endpoints/users/#get_users_self) ➡️ *In development*.
 - [**GET** /users/self/media/recent](https://www.instagram.com/developer/endpoints/users/#get_users_media_recent_self) ➡️ *In development*.
+- [**GET** /tags/*tag-name*/media/recent](https://www.instagram.com/developer/endpoints/tags/#get_tags_media_recent) ➡️ *In development*.
 
 Another's coming soon.
 
@@ -45,6 +46,24 @@ instagramNodeApi.on('finish', (data, pagination, meta, remaining, limit, result)
 
 instagramNodeApi.on('error', (error) => { });
 ```
+
+## Tags
+#### Get the most recent media published by the owner of the access_token..
+```js
+instagramNodeApi.tagsMediaRecent(tagName, [dateLimit = null]);
+
+instagramNodeApi.on('data', (data, pagination, meta, remaining, limit, result) => {
+});
+
+instagramNodeApi.on('finish', (data, pagination, meta, remaining, limit, result) => {
+});
+
+instagramNodeApi.on('error', (error) => { });
+``` 
+
+- **tagName**: *String* 
+- **dateLimit**: *Date*
+
 
 ## Tests
 Include a `.env` file with:
