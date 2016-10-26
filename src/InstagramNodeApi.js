@@ -9,7 +9,9 @@ const {
 } = require('./constants');
 
 const baseUrl = `${instagramApiProtocol}://${instagramApiHost}/${instagramApiVersion}`;
-const defaultOptions = { json: true };
+const defaultOptions = {
+  json: true,
+};
 
 class InstagramNodeApi extends EventEmitter {
   constructor(accessToken) {
@@ -51,7 +53,9 @@ class InstagramNodeApi extends EventEmitter {
     got.get(url, options)
       .then(parseResponse)
       .then(([data, pagination, meta, remaining, limit]) => {
-        const filteredData = limitDate ? data.filter(item => convertInstagramDate(item.created_time) >= limitDate) : data;
+        const filteredData = limitDate ?
+          data.filter(item => convertInstagramDate(item.created_time) >= limitDate) :
+          data;
         const continueByFilter = filteredData.length === data.length;
         this._mediasFounded(filteredData.length);
 
@@ -101,7 +105,9 @@ class InstagramNodeApi extends EventEmitter {
     got.get(url, options)
       .then(parseResponse)
       .then(([data, pagination, meta, remaining, limit]) => {
-        const filteredData = dateLimit ? data.filter(item => convertInstagramDate(item.created_time) >= dateLimit) : data;
+        const filteredData = dateLimit ?
+          data.filter(item => convertInstagramDate(item.created_time) >= dateLimit) :
+          data;
         const continueByFilter = data.length === filteredData.length;
 
         this._mediasFounded(filteredData.length);

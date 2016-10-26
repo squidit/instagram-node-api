@@ -19,7 +19,8 @@
     "should": "^11.1.1"
   },
   "scripts": {
-    "test": "mocha test/*.js -r './test/load-dotenv'"
+    "test": "mocha test/*.js -r './test/load-dotenv'",
+    "lint": "eslint ./"
   },
   "repository": {
     "type": "git",
