@@ -1,6 +1,7 @@
 const EventEmitter = require('events');
 const got = require('got');
 const parseResponse = require('./parse-response');
+const convertInstagramDate = require('./shared-functions/convert-instagram-date');
 const {
   INSTAGRAM_API_PROTOCOL: instagramApiProtocol,
   INSTAGRAM_API_HOST: instagramApiHost,
@@ -8,7 +9,9 @@ const {
 } = require('./constants');
 
 const baseUrl = `${instagramApiProtocol}://${instagramApiHost}/${instagramApiVersion}`;
-const defaultOptions = { json: true };
+const defaultOptions = {
+  json: true,
+};
 
 class InstagramNodeApi extends EventEmitter {
   constructor(accessToken) {
@@ -21,22 +24,23 @@ class InstagramNodeApi extends EventEmitter {
     this.mediasCount = 0;
   }
 
-  instagramCalled() {
+  _instagramCalled() {
     this.callsCount += 1;
   }
 
-  mediasFounded(count) {
+  _mediasFounded(count) {
     this.mediasCount += count;
   }
 
-  buildResultObject() {
+  _buildResultObject() {
     return {
       totalMedias: this.mediasCount,
       totalCalls: this.callsCount,
     };
   }
 
-  usersSelfMediaRecent(nextUrl) {
+  /* USERS */
+  usersSelfMediaRecent(nextUrl, limitDate) {
     const url = nextUrl || `${baseUrl}/users/self/media/recent`;
     const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
       query: {
@@ -45,17 +49,22 @@ class InstagramNodeApi extends EventEmitter {
       },
     });
 
-    this.instagramCalled();
+    this._instagramCalled();
     got.get(url, options)
       .then(parseResponse)
       .then(([data, pagination, meta, remaining, limit]) => {
-        this.mediasFounded(data.length);
-        this.emit('data', data, pagination, meta, remaining, limit, this.buildResultObject());
+        const filteredData = limitDate ?
+          data.filter(item => convertInstagramDate(item.created_time) >= limitDate) :
+          data;
+        const continueByFilter = filteredData.length === data.length;
+        this._mediasFounded(filteredData.length);
 
-        if (pagination && pagination.next_url) {
-          this.usersSelfMediaRecent(pagination.next_url);
+        this.emit('data', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
+
+        if (pagination && pagination.next_url && continueByFilter) {
+          this.usersSelfMediaRecent(pagination.next_url, limitDate);
         } else {
-          this.emit('finish', data, pagination, meta, remaining, limit, this.buildResultObject());
+          this.emit('finish', data, pagination, meta, remaining, limit, this._buildResultObject());
         }
       })
       .catch((response) => {
@@ -76,6 +85,42 @@ class InstagramNodeApi extends EventEmitter {
       .then(([data, , meta, remaining, limit]) => {
         this.emit('data', data, meta, remaining, limit);
         this.emit('finish', data, meta, remaining, limit);
+      })
+      .catch((response) => {
+        this.emit('error', response.body);
+      });
+  }
+
+  /* TAGS */
+  tagsMediaRecent(tagName, dateLimit, nextUrl) {
+    if (!tagName) {
+      this.emit('error', new Error('Invalid tagName'));
+    }
+    const url = nextUrl || `${baseUrl}/tags/${tagName}/media/recent`;
+    const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
+      query: {
+        access_token: this.accessToken,
+        count: 33,
+      },
+    });
+
+    this._instagramCalled();
+    got.get(url, options)
+      .then(parseResponse)
+      .then(([data, pagination, meta, remaining, limit]) => {
+        const filteredData = dateLimit ?
+          data.filter(item => convertInstagramDate(item.created_time) >= dateLimit) :
+          data;
+        const continueByFilter = data.length === filteredData.length;
+
+        this._mediasFounded(filteredData.length);
+        this.emit('data', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
+
+        if (pagination && pagination.next_url && continueByFilter) {
+          this.tagsMediaRecent(tagName, dateLimit, pagination.next_url);
+        } else {
+          this.emit('finish', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
+        }
       })
       .catch((response) => {
         this.emit('error', response.body);
