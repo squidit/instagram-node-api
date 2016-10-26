@@ -7,7 +7,22 @@ const { TEST_INSTAGRAM_ACCESS_TOKEN } = process.env;
 describe('tags media recent', () => {
   mockMediasRecent();
 
-  it('should return a error when tag name is not informed', (done) => {
+  it('should return 33 medias in 1 call when date limit is not defined', (done) => {
+    const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
+    instagramNodeApi.tagsMediaRecent('teste');
+
+    instagramNodeApi.on('finish', (data, paginations, meta, remaining, limit, result) => {
+      try {
+        result.should.have.property('totalCalls', 1);
+        result.should.have.property('totalMedias', 33);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  it('should return a error when tag name is not defined', (done) => {
     const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
     try {
       instagramNodeApi.tagsMediaRecent();

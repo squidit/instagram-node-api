@@ -116,7 +116,7 @@ class InstagramNodeApi extends EventEmitter {
         this._mediasFounded(filteredData.length);
         this.emit('data', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
 
-        if (pagination && pagination.next_url && continueByFilter) {
+        if (pagination && pagination.next_url && continueByFilter && dateLimit) {
           this.tagsMediaRecent(tagName, dateLimit, pagination.next_url);
         } else {
           this.emit('finish', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
