@@ -1,11 +1,10 @@
 require('should');
-const mock = require('./mock/users-self-media-recent.mock');
 const mockMediasRecent = require('./mock/tags-media-recent.mock');
 const InstagramNodeApi = require('../');
 
 const { TEST_INSTAGRAM_ACCESS_TOKEN } = process.env;
 
-describe('users self media recent', () => {
+describe('tags media recent', () => {
   mockMediasRecent();
 
   describe('check if retrieve medias', () => {
