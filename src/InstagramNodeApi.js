@@ -111,7 +111,7 @@ class InstagramNodeApi extends EventEmitter {
         const filteredData = dateLimit ?
           data.filter(item => convertInstagramDate(item.created_time) >= dateLimit) :
           data;
-        const continueByFilter = data.length === filteredData.length;
+        const continueByFilter = filteredData.length;
 
         this._mediasFounded(filteredData.length);
         this.emit('data', filteredData, pagination, meta, remaining, limit, this._buildResultObject());

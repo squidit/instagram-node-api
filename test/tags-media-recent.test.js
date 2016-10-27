@@ -34,13 +34,13 @@ describe('tags media recent', () => {
   });
 
   describe('check if retrieve medias', () => {
-    it('due 2016-11-01 returns 22 medias in 1 call', (done) => {
+    it('due 2016-11-01 returns 22 medias in 2 call', (done) => {
       const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
       instagramNodeApi.tagsMediaRecent('teste', new Date('2016-11-02'));
 
       instagramNodeApi.on('finish', (data, paginations, meta, remaining, limit, result) => {
         try {
-          result.should.have.property('totalCalls', 1);
+          result.should.have.property('totalCalls', 2);
           result.should.have.property('totalMedias', 22);
           done();
         } catch (err) {
