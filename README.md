@@ -19,7 +19,7 @@ const instagramNodeApi = new InstagramNodeApi(YOUR_ACCESS_TOKEN);
 
 instagramNodeApi.on('data', ([*]) => { });
 instagramNodeApi.on('finish', ([*]) => { });
-instagramNodeApi.on('error', (error) => { });
+instagramNodeApi.on('err', (error) => { });
 ```
 
 ## Users
@@ -44,7 +44,7 @@ instagramNodeApi.on('data', (data, pagination, meta, remaining, limit, result) =
 instagramNodeApi.on('finish', (data, pagination, meta, remaining, limit, result) => {
 });
 
-instagramNodeApi.on('error', (error) => { });
+instagramNodeApi.on('err', (error) => { });
 ```
 
 ## Tags
@@ -58,7 +58,7 @@ instagramNodeApi.on('data', (data, pagination, meta, remaining, limit, result) =
 instagramNodeApi.on('finish', (data, pagination, meta, remaining, limit, result) => {
 });
 
-instagramNodeApi.on('error', (error) => { });
+instagramNodeApi.on('err', (error) => { });
 ``` 
 
 - **tagName**: *String* 

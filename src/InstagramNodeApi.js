@@ -68,7 +68,7 @@ class InstagramNodeApi extends EventEmitter {
         }
       })
       .catch((response) => {
-        this.emit('error', response.body);
+        this.emit('err', response.body);
       });
   }
 
@@ -87,14 +87,14 @@ class InstagramNodeApi extends EventEmitter {
         this.emit('finish', data, meta, remaining, limit);
       })
       .catch((response) => {
-        this.emit('error', response.body);
+        this.emit('err', response.body);
       });
   }
 
   /* TAGS */
   tagsMediaRecent(tagName, dateLimit, nextUrl) {
     if (!tagName) {
-      this.emit('error', new Error('Invalid tagName'));
+      this.emit('err', new Error('Invalid tagName'));
     }
     const url = nextUrl || `${baseUrl}/tags/${tagName}/media/recent`;
     const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
@@ -125,7 +125,7 @@ class InstagramNodeApi extends EventEmitter {
         }
       })
       .catch((response) => {
-        this.emit('error', response.body);
+        this.emit('err', response.body);
       });
   }
 }
