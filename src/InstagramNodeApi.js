@@ -96,7 +96,7 @@ class InstagramNodeApi extends EventEmitter {
     if (!tagName) {
       this.emit('err', new Error('Invalid tagName'));
     }
-    const url = nextUrl || `${baseUrl}/tags/${tagName.toLowerCase()}/media/recent`;
+    const url = nextUrl || `${baseUrl}/tags/${encodeURIComponent(tagName.toLowerCase())}/media/recent`;
     const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
       query: {
         access_token: this.accessToken,
