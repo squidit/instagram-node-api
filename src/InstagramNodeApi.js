@@ -124,7 +124,7 @@ class InstagramNodeApi extends EventEmitter {
           && pagination.next_url
           && (limit === 0 || this.mediasCount < limit)
           && continueByFilter
-          && dateLimit
+          && (dateLimit || limit > 0)
         ) {
           this.tagsMediaRecent(tagName, dateLimit, limit, pagination.next_url);
         } else {
