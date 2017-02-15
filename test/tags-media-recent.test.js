@@ -63,5 +63,20 @@ describe('tags media recent', () => {
         }
       });
     });
+
+    it('due 2016-10-16 and limit 14 should return 33 medias in 1 calls', (done) => {
+      const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
+      instagramNodeApi.tagsMediaRecent('teste', new Date('2016-10-17'), 14);
+
+      instagramNodeApi.on('finish', (data, paginations, meta, remaining, limit, result) => {
+        try {
+          result.should.have.property('totalCalls', 1);
+          result.should.have.property('totalMedias', 33);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
   });
 });

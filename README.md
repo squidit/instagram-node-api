@@ -50,7 +50,7 @@ instagramNodeApi.on('err', (error) => { });
 ## Tags
 #### Get the most recent media published by the owner of the access_token..
 ```js
-instagramNodeApi.tagsMediaRecent(tagName, [dateLimit = null]);
+instagramNodeApi.tagsMediaRecent(tagName, [dateLimit = null], [limit = 0]);
 
 instagramNodeApi.on('data', (data, pagination, meta, remaining, limit, result) => {
 });

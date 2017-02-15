@@ -92,7 +92,7 @@ class InstagramNodeApi extends EventEmitter {
   }
 
   /* TAGS */
-  tagsMediaRecent(tagName, dateLimit, nextUrl) {
+  tagsMediaRecent(tagName, dateLimit, limit = 0, nextUrl) {
     if (!tagName) {
       this.emit('err', new Error('Invalid tagName'));
       throw new Error('Invalid tagName');
@@ -108,7 +108,7 @@ class InstagramNodeApi extends EventEmitter {
     this._instagramCalled();
     got.get(url, options)
       .then(parseResponse)
-      .then(([data, pagination, meta, remaining, limit]) => {
+      .then(([data, pagination, meta, remaining, instagramLimit]) => {
         const filteredData = dateLimit ?
           data.filter(item => convertInstagramDate(item.created_time) >= dateLimit) :
           data;
@@ -116,13 +116,19 @@ class InstagramNodeApi extends EventEmitter {
 
         if (continueByFilter) {
           this._mediasFounded(filteredData.length);
-          this.emit('data', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
+          this.emit('data', filteredData, pagination, meta, remaining, instagramLimit, this._buildResultObject());
         }
 
-        if (pagination && pagination.next_url && continueByFilter && dateLimit) {
-          this.tagsMediaRecent(tagName, dateLimit, pagination.next_url);
+        if (
+          pagination
+          && pagination.next_url
+          && (limit === 0 || this.mediasCount < limit)
+          && continueByFilter
+          && dateLimit
+        ) {
+          this.tagsMediaRecent(tagName, dateLimit, limit, pagination.next_url);
         } else {
-          this.emit('finish', filteredData, pagination, meta, remaining, limit, this._buildResultObject());
+          this.emit('finish', filteredData, pagination, meta, remaining, instagramLimit, this._buildResultObject());
         }
       })
       .catch((response) => {
