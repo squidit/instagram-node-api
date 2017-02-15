@@ -1,5 +1,8 @@
 const EventEmitter = require('events');
 const got = require('got');
+const isDate = require('lodash/isDate');
+const isNumber = require('lodash/isNumber');
+const gt = require('lodash/gt');
 const parseResponse = require('./parse-response');
 const convertInstagramDate = require('./shared-functions/convert-instagram-date');
 const {
@@ -92,7 +95,14 @@ class InstagramNodeApi extends EventEmitter {
   }
 
   /* TAGS */
-  tagsMediaRecent(tagName, dateLimit, limit = 0, nextUrl) {
+  tagsMediaRecent(tagName, dateLimitOrLimit, limitOrNull, nextUrl) {
+    const dateLimit = isDate(dateLimitOrLimit)
+      ? dateLimitOrLimit
+      : null;
+    const limit = (!isDate(dateLimitOrLimit) && isNumber(dateLimitOrLimit))
+      ? dateLimitOrLimit
+      : (isNumber(limitOrNull) && gt(limitOrNull, 0) ? limitOrNull : 0);
+
     if (!tagName) {
       this.emit('err', new Error('Invalid tagName'));
       throw new Error('Invalid tagName');

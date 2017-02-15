@@ -63,7 +63,16 @@ instagramNodeApi.on('err', (error) => { });
 
 - **tagName**: *String* 
 - **dateLimit**: *Date*
+- **limit***: *Number*
 
+#### Usage
+```js
+instagramNodeApi.tagsMediaRecent(tagName); // => Returns last 33 medias from tag
+instagramNodeApi.tagsMediaRecent(tagName, new Date()); // => Stop the search when founded some media which is greater than the date informed
+instagramNodeApi.tagsMediaRecent(tagName, new Date(), 1000); // => Stop the search when founded some media which is greater than the date informed or the limit
+instagramNodeApi.tagsMediaRecent(tagName, 1000); // => Stop the search when the number of founded medias is greater than the limit informed
+
+``` 
 
 ## Tests
 Include a `.env` file with:
