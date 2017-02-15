@@ -95,6 +95,7 @@ class InstagramNodeApi extends EventEmitter {
   tagsMediaRecent(tagName, dateLimit, nextUrl) {
     if (!tagName) {
       this.emit('err', new Error('Invalid tagName'));
+      throw new Error('Invalid tagName');
     }
     const url = nextUrl || `${baseUrl}/tags/${encodeURIComponent(tagName.toLowerCase())}/media/recent`;
     const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {

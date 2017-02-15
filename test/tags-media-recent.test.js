@@ -26,7 +26,7 @@ describe('tags media recent', () => {
     const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN);
     try {
       instagramNodeApi.tagsMediaRecent();
-      done('passed');
+      done(new Error('passed'));
     } catch (err) {
       err.message.should.be.eql('Invalid tagName');
       done();
