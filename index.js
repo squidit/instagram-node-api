@@ -1,1 +1,1 @@
-module.exports = require('./src/InstagramNodeApi');
+module.exports = require('./src/InstagramNodeApi')

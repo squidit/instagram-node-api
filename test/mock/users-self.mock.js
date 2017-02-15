@@ -1,27 +1,27 @@
-const nock = require('nock');
+const nock = require('nock')
 
 const {
   INSTAGRAM_API_PROTOCOL: instagramApiProtocol,
   INSTAGRAM_API_HOST: instagramApiHost,
-  INSTAGRAM_API_VERSION: instagramApiVersion,
-} = require('../../src/constants');
+  INSTAGRAM_API_VERSION: instagramApiVersion
+} = require('../../src/constants')
 
 const {
-  TEST_INSTAGRAM_ACCESS_TOKEN,
-} = process.env;
+  TEST_INSTAGRAM_ACCESS_TOKEN
+} = process.env
 
-const baseUrl = `${instagramApiProtocol}://${instagramApiHost}/${instagramApiVersion}`;
+const baseUrl = `${instagramApiProtocol}://${instagramApiHost}/${instagramApiVersion}`
 
-module.exports = function usersSelfMock() {
+module.exports = function usersSelfMock () {
   beforeEach((done) => {
     nock(baseUrl)
       .get('/users/self')
       .query({
-        access_token: TEST_INSTAGRAM_ACCESS_TOKEN,
+        access_token: TEST_INSTAGRAM_ACCESS_TOKEN
       })
       .reply(200, {
         meta: {
-          code: 200,
+          code: 200
         },
         data: {
           username: 'limafelipe92',
@@ -32,14 +32,14 @@ module.exports = function usersSelfMock() {
           counts: {
             media: 274,
             followed_by: 495,
-            follows: 146,
+            follows: 146
           },
-          id: '30990380',
-        },
+          id: '30990380'
+        }
       }, {
         'x-ratelimit-limit': '5000',
-        'x-ratelimit-remaining': '4989',
-      });
-    done();
-  });
-};
+        'x-ratelimit-remaining': '4989'
+      })
+    done()
+  })
+}
