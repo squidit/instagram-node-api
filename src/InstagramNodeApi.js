@@ -94,6 +94,25 @@ class InstagramNodeApi extends EventEmitter {
       })
   }
 
+  user (id) {
+    const url = `${baseUrl}/users/${id}`
+    const options = Object.assign({}, defaultOptions, {
+      query: {
+        access_token: this.accessToken
+      }
+    })
+
+    got.get(url, options)
+      .then(parseResponse)
+      .then(([data, , meta, remaining, limit]) => {
+        this.emit('data', data, meta, remaining, limit)
+        this.emit('finish', data, meta, remaining, limit)
+      })
+      .catch((response) => {
+        this.emit('err', response.body || response)
+      })
+  }
+
   /* TAGS */
   tagsMediaRecent (tagName, dateLimitOrLimit, limitOrNull, nextUrl) {
     const dateLimit = isDate(dateLimitOrLimit)

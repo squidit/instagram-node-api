@@ -34,6 +34,17 @@ instagramNodeApi.on('finish', (profile, meta, remaining, limit, result) => {
 });
 ```
 
+#### Get information about the user
+```js
+instagramNodeApi.user(id);
+
+instagramNodeApi.on('data', (profile, meta, remaining, limit, result) => {
+});
+
+instagramNodeApi.on('finish', (profile, meta, remaining, limit, result) => {
+});
+```
+
 #### Get the most recent media published by the owner of the access_token..
 ```js
 instagramNodeApi.usersSelfMediaRecent();
