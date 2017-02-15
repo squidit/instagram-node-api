@@ -1,4 +1,4 @@
-# instagram-node-api [![Build Status](https://travis-ci.org/squidit/instagram-node-api.svg?branch=master)](https://travis-ci.org/squidit/instagram-node-api) ![[Depencies status](https://david-dm.org/squidit/instagram-node-api/)](https://david-dm.org/squidit/instagram-node-api.svg)
+# instagram-node-api [![Build Status](https://travis-ci.org/squidit/instagram-node-api.svg?branch=master)](https://travis-ci.org/squidit/instagram-node-api) ![[Depencies status](https://david-dm.org/squidit/instagram-node-api/)](https://david-dm.org/squidit/instagram-node-api.svg) [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
 
 **BETA** - A node wrapper to [Instagram API](https://www.instagram.com/developer/endpoints/) 😄
 
