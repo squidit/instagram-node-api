@@ -8,14 +8,18 @@
     "lodash": "^4.16.4"
   },
   "devDependencies": {
-    "dotenv": "^2.0.0",
+    "dotenv": "^4.0.0",
     "mocha": "^3.1.2",
     "nock": "^9.0.0",
     "should": "^11.1.1",
     "standard": "^8.6.0"
   },
   "standard": {
-    "globals": ["beforeEach", "describe", "it"]
+    "globals": [
+      "beforeEach",
+      "describe",
+      "it"
+    ]
   },
   "scripts": {
     "test": "mocha test/*.js -r './test/load-dotenv'",
