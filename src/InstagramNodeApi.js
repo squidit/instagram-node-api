@@ -2,9 +2,11 @@ const EventEmitter = require('events')
 const got = require('got')
 const isDate = require('lodash/isDate')
 const isNumber = require('lodash/isNumber')
+const get = require('lodash/get')
 const gt = require('lodash/gt')
 const parseResponse = require('./parse-response')
 const convertInstagramDate = require('./shared-functions/convert-instagram-date')
+const InstagramError = require('./InstagramError')
 const {
   INSTAGRAM_API_PROTOCOL: instagramApiProtocol,
   INSTAGRAM_API_HOST: instagramApiHost,
@@ -70,8 +72,8 @@ class InstagramNodeApi extends EventEmitter {
           this.emit('finish', data, pagination, meta, remaining, limit, this._buildResultObject())
         }
       })
-      .catch((response) => {
-        this.emit('err', response.body || response)
+      .catch((error) => {
+        this.emit('err', new InstagramError(get(error, 'response.body')))
       })
   }
 
@@ -89,8 +91,8 @@ class InstagramNodeApi extends EventEmitter {
         this.emit('data', data, meta, remaining, limit)
         this.emit('finish', data, meta, remaining, limit)
       })
-      .catch((response) => {
-        this.emit('err', response.body || response)
+      .catch((error) => {
+        this.emit('err', new InstagramError(get(error, 'response.body')))
       })
   }
 
@@ -108,8 +110,8 @@ class InstagramNodeApi extends EventEmitter {
         this.emit('data', data, meta, remaining, limit)
         this.emit('finish', data, meta, remaining, limit)
       })
-      .catch((response) => {
-        this.emit('err', response.body || response)
+      .catch((error) => {
+        this.emit('err', new InstagramError(get(error, 'response.body')))
       })
   }
 
@@ -160,8 +162,8 @@ class InstagramNodeApi extends EventEmitter {
           this.emit('finish', filteredData, pagination, meta, remaining, instagramLimit, this._buildResultObject())
         }
       })
-      .catch((response) => {
-        this.emit('err', response.body || response)
+      .catch((error) => {
+        this.emit('err', new InstagramError(get(error, 'response.body')))
       })
   }
 }
