@@ -6,6 +6,7 @@
 - [**GET** /users/self](https://www.instagram.com/developer/endpoints/users/#get_users_self) ➡️ *In development*.
 - [**GET** /users/self/media/recent](https://www.instagram.com/developer/endpoints/users/#get_users_media_recent_self) ➡️ *In development*.
 - [**GET** /tags/*tag-name*/media/recent](https://www.instagram.com/developer/endpoints/tags/#get_tags_media_recent) ➡️ *In development*.
+- [**GET** /tags/*user-id*/media/recent](https://www.instagram.com/developer/endpoints/users/#get_users_media_recent) ➡️ *In development*.
 
 Another's coming soon.
 
@@ -43,6 +44,19 @@ instagramNodeApi.on('data', (profile, meta, remaining, limit, result) => {
 
 instagramNodeApi.on('finish', (profile, meta, remaining, limit, result) => {
 });
+```
+
+#### Get the most recent media published by the id of the user
+```js
+instagramNodeApi.usersMediaRecent(userid);
+
+instagramNodeApi.on('data', (data, pagination, meta, remaining, limit, result) => {
+});
+
+instagramNodeApi.on('finish', (data, pagination, meta, remaining, limit, result) => {
+});
+
+instagramNodeApi.on('err', (error) => { });
 ```
 
 #### Get the most recent media published by the owner of the access_token..
