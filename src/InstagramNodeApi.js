@@ -45,6 +45,38 @@ class InstagramNodeApi extends EventEmitter {
   }
 
   /* USERS */
+  usersMediaRecent (idUser, nextUrl, limitDate) {
+    const url = nextUrl || `${baseUrl}/users/${idUser}/media/recent`
+    const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
+      query: {
+        access_token: this.accessToken,
+        count: 33
+      }
+    })
+
+    this._instagramCalled()
+    got.get(url, options)
+      .then(parseResponse)
+      .then(([data, pagination, meta, remaining, limit]) => {
+        const filteredData = limitDate
+        ? data.filter(item => convertInstagramDate(item.created_time) >= limitDate)
+        : data
+        const continueByFilter = filteredData.length === data.length
+        this._mediasFounded(filteredData.length)
+
+        this.emit('data', filteredData, pagination, meta, remaining, limit, this._buildResultObject())
+
+        if (pagination && pagination.next_url && continueByFilter) {
+          this.usersSelfMediaRecent(pagination.next_url, limitDate)
+        } else {
+          this.emit('finish', data, pagination, meta, remaining, limit, this._buildResultObject())
+        }
+      })
+      .catch((error) => {
+        this.emit('err', new InstagramError(get(error, 'response.body')))
+      })
+  }
+
   usersSelfMediaRecent (nextUrl, limitDate) {
     const url = nextUrl || `${baseUrl}/users/self/media/recent`
     const options = nextUrl ? defaultOptions : Object.assign({}, defaultOptions, {
