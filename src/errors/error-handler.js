@@ -5,9 +5,9 @@ const get = require('lodash/get')
 function errorHandler (error, instagramNodeApi) {
   let err = get(error, 'response.body')
   if (err.code === 429) {
-    instagramNodeApi.emit('err', new InstagramErrorMaxRequests(get(error, 'response.body')))
+    instagramNodeApi.emit('err', new InstagramErrorMaxRequests(err))
   } else {
-    instagramNodeApi.emit('err', new InstagramError(get(error, 'response.body')))
+    instagramNodeApi.emit('err', new InstagramError(err))
   }
 }
 
