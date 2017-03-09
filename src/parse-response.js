@@ -10,6 +10,7 @@ module.exports = function parseResponse (response) {
 
     return Promise.resolve([data, pagination, meta, remaining, limit])
   } catch (error) {
+    console.log('error parse', error)
     return Promise.reject(error)
   }
 }

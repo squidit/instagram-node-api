@@ -7,12 +7,13 @@ const {
 } = require('../../src/constants')
 
 const {
-  TEST_INSTAGRAM_ACCESS_TOKEN
+  TEST_INSTAGRAM_ACCESS_TOKEN,
+  TEST_INSTAGRAM_ACCESS_TOKEN_WITHOUT_REQUESTS
 } = process.env
 
 const baseUrl = `${instagramApiProtocol}://${instagramApiHost}/${instagramApiVersion}`
 
-module.exports = function usersSelfMock () {
+function usersSelfMock () {
   beforeEach((done) => {
     nock(baseUrl)
       .get('/users/self')
@@ -43,3 +44,4 @@ module.exports = function usersSelfMock () {
     done()
   })
 }
+module.exports = usersSelfMock

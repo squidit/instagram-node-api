@@ -1,11 +1,17 @@
 require('should')
 const mock = require('./mock/users-self-media-recent.mock')
+const mockMaxReqExceeded = require('./mock/request-instagram-access-token-max-request-exceed')
 const InstagramNodeApi = require('../')
+const InstagramErrorMaxRequests = require('../src/errors/InstagramErrorMaxRequests')
 
-const { TEST_INSTAGRAM_ACCESS_TOKEN } = process.env
+const {
+  TEST_INSTAGRAM_ACCESS_TOKEN,
+  TEST_INSTAGRAM_ACCESS_TOKEN_WITHOUT_REQUESTS
+} = process.env
 
 describe('users self media recent', () => {
   mock()
+  mockMaxReqExceeded()
 
   it('should return meta object with success', (done) => {
     const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
@@ -156,6 +162,19 @@ describe('users self media recent', () => {
         } catch (err) {
           done(err)
         }
+      })
+    })
+
+    it('should return a exception InstagramErrorMaxRequests', (done) => {
+      const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN_WITHOUT_REQUESTS)
+      instagramNodeApi.usersSelf();
+
+      instagramNodeApi.on('err', (error) => {
+        error.name.should.be.eql('InstagramErrorMaxRequests');
+        error.statusCode.should.be.eql(429);
+        error.should.be.an.instanceof(InstagramErrorMaxRequests)
+        error.type.should.be.eql('OAuthRateLimitException')
+        done()
       })
     })
   })
