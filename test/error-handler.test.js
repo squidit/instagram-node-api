@@ -1,7 +1,5 @@
 require('should')
 const InstagramNodeApi = require('../src/InstagramNodeApi')
-const InstagramError = require('../src/errors/InstagramError')
-const InstagramErrorMaxRequests = require('../src/errors/InstagramErrorMaxRequests')
 const errorHandler = require('../src/errors/error-handler')
 
 const {

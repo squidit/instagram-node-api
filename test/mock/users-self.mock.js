@@ -7,8 +7,7 @@ const {
 } = require('../../src/constants')
 
 const {
-  TEST_INSTAGRAM_ACCESS_TOKEN,
-  TEST_INSTAGRAM_ACCESS_TOKEN_WITHOUT_REQUESTS
+  TEST_INSTAGRAM_ACCESS_TOKEN
 } = process.env
 
 const baseUrl = `${instagramApiProtocol}://${instagramApiHost}/${instagramApiVersion}`

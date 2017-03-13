@@ -9,8 +9,8 @@ const {
 } = process.env
 
 describe('users self', () => {
-  userSelfMock();
-  mockMaxReqExceeded();
+  userSelfMock()
+  mockMaxReqExceeded()
 
   it('should return information about the owner of the access token.', (done) => {
     const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)

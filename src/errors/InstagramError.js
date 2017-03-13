@@ -1,6 +1,5 @@
 class InstagramError extends Error {
   constructor (error) {
-
     if (error.hasOwnProperty('meta')) {
       super(error.meta.error_message)
       this.type = error.meta.error_type

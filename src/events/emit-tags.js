@@ -1,9 +1,7 @@
 const convertInstagramDate = require('../shared-functions/convert-instagram-date')
 
 function emitTags ([data, pagination, meta, remaining, instagramLimit], limit, limitDate, tagName, instagramNodeApi) {
-  const filteredData = limitDate ?
-    data.filter(item => convertInstagramDate(item.created_time) >= limitDate) :
-    data
+  const filteredData = limitDate ? data.filter(item => convertInstagramDate(item.created_time) >= limitDate) : data
   const continueByFilter = filteredData.length
 
   if (continueByFilter) {

@@ -20,7 +20,7 @@ const defaultOptions = {
 }
 
 class InstagramNodeApi extends EventEmitter {
-  constructor(accessToken) {
+  constructor (accessToken) {
     if (!accessToken) {
       throw new Error('Invalid accessToken informed')
     }
@@ -30,15 +30,15 @@ class InstagramNodeApi extends EventEmitter {
     this.mediasCount = 0
   }
 
-  _instagramCalled() {
+  _instagramCalled () {
     this.callsCount += 1
   }
 
-  _mediasFounded(count) {
+  _mediasFounded (count) {
     this.mediasCount += count
   }
 
-  _buildResultObject() {
+  _buildResultObject () {
     return {
       totalMedias: this.mediasCount,
       totalCalls: this.callsCount
@@ -46,9 +46,9 @@ class InstagramNodeApi extends EventEmitter {
   }
 
   /* USERS */
-  usersMediaRecent(idUser, nextUrl, limitDate) {
+  usersMediaRecent (idUser, nextUrl, limitDate) {
     const url = nextUrl || `${baseUrl}/users/${idUser}/media/recent`
-    const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken);
+    const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken)
 
     this._instagramCalled()
     requestInstagram(url, options)
@@ -56,9 +56,9 @@ class InstagramNodeApi extends EventEmitter {
       .catch((error) => errorHandler(error, this))
   }
 
-  usersSelfMediaRecent(nextUrl, limitDate) {
+  usersSelfMediaRecent (nextUrl, limitDate) {
     const url = nextUrl || `${baseUrl}/users/self/media/recent`
-    const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken);
+    const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken)
 
     this._instagramCalled()
     requestInstagram(url, options)
@@ -66,18 +66,18 @@ class InstagramNodeApi extends EventEmitter {
       .catch((error) => errorHandler(error, this))
   }
 
-  usersSelf() {
+  usersSelf () {
     const url = `${baseUrl}/users/self`
-    const options = buildOptionsForUser(defaultOptions, this.accessToken);
+    const options = buildOptionsForUser(defaultOptions, this.accessToken)
 
     requestInstagram(url, options)
       .then((params) => emitUsers(params, this))
       .catch((error) => errorHandler(error, this))
   }
 
-  user(id) {
+  user (id) {
     const url = `${baseUrl}/users/${id}`
-    const options = buildOptionsForUser(defaultOptions, this.accessToken);
+    const options = buildOptionsForUser(defaultOptions, this.accessToken)
 
     requestInstagram(url, options)
       .then((params) => emitUsers(params, this))
@@ -85,20 +85,16 @@ class InstagramNodeApi extends EventEmitter {
   }
 
   /* TAGS */
-  tagsMediaRecent(tagName, dateLimitOrLimit, limitOrNull, nextUrl) {
-    const dateLimit = isDate(dateLimitOrLimit) ?
-      dateLimitOrLimit :
-      null
-    const limit = (!isDate(dateLimitOrLimit) && isNumber(dateLimitOrLimit)) ?
-      dateLimitOrLimit :
-      (isNumber(limitOrNull) && gt(limitOrNull, 0) ? limitOrNull : 0)
+  tagsMediaRecent (tagName, dateLimitOrLimit, limitOrNull, nextUrl) {
+    const dateLimit = isDate(dateLimitOrLimit) ? dateLimitOrLimit : null
+    const limit = (!isDate(dateLimitOrLimit) && isNumber(dateLimitOrLimit)) ? dateLimitOrLimit : (isNumber(limitOrNull) && gt(limitOrNull, 0) ? limitOrNull : 0)
 
     if (!tagName) {
       this.emit('err', new Error('Invalid tagName'))
       throw new Error('Invalid tagName')
     }
     const url = nextUrl || `${baseUrl}/tags/${encodeURIComponent(tagName.toLowerCase())}/media/recent`
-    const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken);
+    const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken)
 
     this._instagramCalled()
     requestInstagram(url, options)

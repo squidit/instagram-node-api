@@ -5,7 +5,6 @@ const {
   TEST_INSTAGRAM_ACCESS_TOKEN
 } = process.env
 
-
 describe('emit user unit test', () => {
   it('should emit event data and finish', (done) => {
     const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
