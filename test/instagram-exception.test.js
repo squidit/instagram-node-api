@@ -25,8 +25,9 @@ describe('instagram exception', () => {
     instagramNodeApi.usersSelf()
 
     instagramNodeApi.on('err', (error) => {
-      error.type.should.be.eql('OAuthAccessTokenException')
-      error.message.should.be.eql('The access_token provided is invalid.')
+      console.log(error)
+      error.statusCode.should.be.eql(400)
+      error.statusMessage.should.be.eql('Bad Request')
       done()
     })
 
