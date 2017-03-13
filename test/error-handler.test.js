@@ -9,32 +9,7 @@ const {
 } = process.env
 
 describe('error handler', () => {
-  it('should return an InstagramError error', (done) => {
-    const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
-    let error = {
-      response: {
-        body: {
-          code: 429,
-          error_message: 'unit test message',
-          error_type: 'UnitTestException'
-        }
-      }
-    }
-
-    instagramNodeApi.on('err', (err) => {
-      try {
-        err.response.body.statusCode.should.be.eql(429)
-        err.type.should.be.eql('UnitTestException')
-        done()
-      } catch (ex) {
-        done(ex)
-      }
-    })
-
-    errorHandler(error, instagramNodeApi)
-  })
-
-  it('should return an InstagramErrorMaxRequests error', (done) => {
+  it('should wrap InstagramError error', (done) => {
     const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
     let error = {
       response: {
@@ -50,8 +25,8 @@ describe('error handler', () => {
 
     instagramNodeApi.on('err', (err) => {
       try {
-        err.statusCode.should.be.eql(200)
-        err.type.should.be.eql('UnitTestException')
+        err.response.body.meta.code.should.be.eql(200)
+        err.response.body.meta.error_type.should.be.eql('UnitTestException')
         done()
       } catch (error) {
         done(error)

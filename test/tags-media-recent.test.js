@@ -2,11 +2,10 @@ require('should')
 const mockMediasRecent = require('./mock/tags-media-recent.mock')
 const mockMaxReqExceeded = require('./mock/request-instagram-access-token-max-request-exceed')
 const InstagramNodeApi = require('../')
-const InstagramErrorMaxRequests = require('../src/errors/InstagramErrorMaxRequests')
+const errorHandler = require('../src/errors/error-handler')
 
 const {
-  TEST_INSTAGRAM_ACCESS_TOKEN,
-  TEST_INSTAGRAM_ACCESS_TOKEN_WITHOUT_REQUESTS
+  TEST_INSTAGRAM_ACCESS_TOKEN
 } = process.env
 
 describe('tags media recent', () => {
@@ -115,17 +114,31 @@ describe('tags media recent', () => {
       })
     })
 
-    it('should return a exception InstagramErrorMaxRequests', (done) => {
-      const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN_WITHOUT_REQUESTS)
-      instagramNodeApi.usersSelf();
+    it('should wrap InstagramError error', (done) => {
+      const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
+      let error = {
+        response: {
+          body: {
+            meta: {
+              code: 200,
+              error_message: 'unit test message',
+              error_type: 'UnitTestException'
+            }
+          }
+        }
+      }
 
-      instagramNodeApi.on('err', (error) => {
-        error.name.should.be.eql('InstagramErrorMaxRequests');
-        error.statusCode.should.be.eql(429);
-        error.should.be.an.instanceof(InstagramErrorMaxRequests)
-        error.type.should.be.eql('OAuthRateLimitException')
-        done()
+      instagramNodeApi.on('err', (err) => {
+        try {
+          err.response.body.meta.code.should.be.eql(200)
+          err.response.body.meta.error_type.should.be.eql('UnitTestException')
+          done()
+        } catch (error) {
+          done(error)
+        }
       })
+
+      errorHandler(error, instagramNodeApi)
     })
   })
 })

@@ -25,7 +25,6 @@ describe('instagram exception', () => {
     instagramNodeApi.usersSelf()
 
     instagramNodeApi.on('err', (error) => {
-      console.log(error)
       error.statusCode.should.be.eql(400)
       error.statusMessage.should.be.eql('Bad Request')
       done()
