@@ -22,7 +22,7 @@
     ]
   },
   "scripts": {
-    "test": "mocha test/*.js -r './test/load-dotenv'",
+    "test": "mocha test/*.js -r './test/load-dotenv' --timeout 5000",
     "lint": "standard",
     "lint:fix": "standard --fix"
   },

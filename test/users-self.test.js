@@ -1,11 +1,16 @@
 require('should')
-const mock = require('./mock/users-self.mock')
+const userSelfMock = require('./mock/users-self.mock')
+const mockMaxReqExceeded = require('./mock/request-instagram-access-token-max-request-exceed')
 const InstagramNodeApi = require('../')
+const errorHandler = require('../src/errors/error-handler')
 
-const { TEST_INSTAGRAM_ACCESS_TOKEN } = process.env
+const {
+  TEST_INSTAGRAM_ACCESS_TOKEN
+} = process.env
 
 describe('users self', () => {
-  mock()
+  userSelfMock()
+  mockMaxReqExceeded()
 
   it('should return information about the owner of the access token.', (done) => {
     const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
@@ -69,5 +74,32 @@ describe('users self', () => {
         done(error)
       }
     })
+  })
+
+  it('should wrap InstagramError error', (done) => {
+    const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
+    let error = {
+      response: {
+        body: {
+          meta: {
+            code: 200,
+            error_message: 'unit test message',
+            error_type: 'UnitTestException'
+          }
+        }
+      }
+    }
+
+    instagramNodeApi.on('err', (err) => {
+      try {
+        err.response.body.meta.code.should.be.eql(200)
+        err.response.body.meta.error_type.should.be.eql('UnitTestException')
+        done()
+      } catch (error) {
+        done(error)
+      }
+    })
+
+    errorHandler(error, instagramNodeApi)
   })
 })
