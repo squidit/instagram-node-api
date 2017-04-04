@@ -46,6 +46,15 @@ class InstagramNodeApi extends EventEmitter {
   }
 
   /* USERS */
+  userSearch (username) {
+    const url = `${baseUrl}/users/search`
+    const options = buildOptionsForUser(defaultOptions, this.accessToken, {q: username})
+    this._instagramCalled()
+    requestInstagram(url, options)
+      .then((params) => emitUsers(params, this))
+      .catch((error) => errorHandler(error, this))
+  }
+
   usersMediaRecent (idUser, nextUrl, limitDate) {
     const url = nextUrl || `${baseUrl}/users/${idUser}/media/recent`
     const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken)

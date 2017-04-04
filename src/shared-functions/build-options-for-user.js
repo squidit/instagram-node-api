@@ -1,8 +1,8 @@
-function buildOptionsForUser (defaultOptions, accessToken) {
+function buildOptionsForUser (defaultOptions, accessToken, queryOptions) {
   return Object.assign({}, defaultOptions, {
-    query: {
+    query: Object.assign({
       access_token: accessToken
-    }
+    }, queryOptions)
   })
 }
 
