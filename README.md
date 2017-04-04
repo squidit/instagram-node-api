@@ -3,10 +3,11 @@
 **BETA** - A node wrapper to [Instagram API](https://www.instagram.com/developer/endpoints/) 😄
 
 ## Status
-- [**GET** /users/self](https://www.instagram.com/developer/endpoints/users/#get_users_self) ➡️ *In development*.
-- [**GET** /users/self/media/recent](https://www.instagram.com/developer/endpoints/users/#get_users_media_recent_self) ➡️ *In development*.
-- [**GET** /tags/*tag-name*/media/recent](https://www.instagram.com/developer/endpoints/tags/#get_tags_media_recent) ➡️ *In development*.
-- [**GET** /tags/*user-id*/media/recent](https://www.instagram.com/developer/endpoints/users/#get_users_media_recent) ➡️ *In development*.
+- [**GET** /users/search](https://www.instagram.com/developer/endpoints/users/#get_users_search).
+- [**GET** /users/self](https://www.instagram.com/developer/endpoints/users/#get_users_self).
+- [**GET** /users/self/media/recent](https://www.instagram.com/developer/endpoints/users/#get_users_media_recent_self).
+- [**GET** /tags/*tag-name*/media/recent](https://www.instagram.com/developer/endpoints/tags/#get_tags_media_recent).
+- [**GET** /tags/*user-id*/media/recent](https://www.instagram.com/developer/endpoints/users/#get_users_media_recent).
 
 Another's coming soon.
 
@@ -24,6 +25,17 @@ instagramNodeApi.on('err', (error) => { });
 ```
 
 ## Users
+#### Search users by quering username.
+```js
+instagramNodeApi.userSearch(username);
+
+instagramNodeApi.on('data', (profiles, meta, remaining, limit, result) => {
+});
+
+instagramNodeApi.on('finish', (profiles, meta, remaining, limit, result) => {
+});
+```
+
 #### Get information about the owner of the access_token.
 ```js
 instagramNodeApi.usersSelf();
