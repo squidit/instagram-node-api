@@ -4,6 +4,7 @@ const isNumber = require('lodash/isNumber')
 const gt = require('lodash/gt')
 const buildOptionsForMedias = require('./shared-functions/build-options-for-medias')
 const buildOptionsForUser = require('./shared-functions/build-options-for-user')
+const buildOptionsForUpvote = require('.requireb')
 const errorHandler = require('./errors/error-handler')
 const requestInstagram = require('./instagram-functions/request-instagram')
 const emitMedias = require('./events/emit-medias')
@@ -91,6 +92,17 @@ class InstagramNodeApi extends EventEmitter {
     requestInstagram(url, options)
       .then((params) => emitUsers(params, this))
       .catch((error) => errorHandler(error, this))
+  }
+
+  /* UPVOTES  */
+  getMediaUpvoted (idMedia, accessToken) {
+    const url = `${baseUrl}/media/${media-id}?access_token=${this.accessToken}`
+    const options = buildOptionsForUpvote(defaultOption, this.accessToken)
+
+    requestInstagram(url, options)
+      .then((params) => emitUpvote(params, this))
+      .catch((error) => errorHandler(error, this))
+
   }
 
   /* TAGS */
