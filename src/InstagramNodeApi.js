@@ -2,11 +2,17 @@ const EventEmitter = require('events')
 const isDate = require('lodash/isDate')
 const isNumber = require('lodash/isNumber')
 const gt = require('lodash/gt')
+const buildOptionsForGetMedia = require('./shared-functions/build-options-for-get-media')
 const buildOptionsForMedias = require('./shared-functions/build-options-for-medias')
 const buildOptionsForUser = require('./shared-functions/build-options-for-user')
+const buildOptionsForLikeMedia = require('./shared-functions/build-options-for-like-media')
+const buildOptionsForUnlikeMedia = require('./shared-functions/build-options-for-unlike-media')
 const errorHandler = require('./errors/error-handler')
 const requestInstagram = require('./instagram-functions/request-instagram')
+const postToInstagram = require('./instagram-functions/post-to-instagram')
+const deleteToInstagram = require('./instagram-functions/delete-to-instagram')
 const emitMedias = require('./events/emit-medias')
+const emitLikedMedia = require('./events/emit-liked-media')
 const emitUsers = require('./events/emit-users')
 const emitTags = require('./events/emit-tags')
 const {
@@ -110,6 +116,38 @@ class InstagramNodeApi extends EventEmitter {
       .then((params) => emitTags(params, limit, dateLimit, tagName, this))
       .catch((error) => errorHandler(error, this))
   }
+
+  /* MEDIAS */
+  likeMedia (idMedia) {
+    const url = `${baseUrl}/media/${idMedia}/likes`
+    const options = buildOptionsForLikeMedia(this.accessToken)
+
+    this._instagramCalled()
+    postToInstagram(url, options)
+      .then((params) => emitLikedMedia(params, this))
+      .catch((error) => errorHandler(error, this))
+  }
+
+  unlikeMedia (idMedia) {
+    const url = `${baseUrl}/media/${idMedia}/likes`
+    const options = buildOptionsForUnlikeMedia(defaultOptions, this.accessToken)
+
+    this._instagramCalled()
+    deleteToInstagram(url, options)
+      .then((params) => emitLikedMedia(params, this))
+      .catch((error) => errorHandler(error, this))
+  }
+
+  getMedia (idMedia) {
+    const url = `${baseUrl}/media/${idMedia}`
+    const options = buildOptionsForGetMedia(defaultOptions, this.accessToken)
+
+    this._instagramCalled()
+    requestInstagram(url, options)
+      .then((params) => emitMedias(params, null, this))
+      .catch((error) => errorHandler(error, this))
+  }
+
 }
 
 module.exports = InstagramNodeApi
