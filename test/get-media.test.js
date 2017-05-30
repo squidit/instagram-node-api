@@ -1,6 +1,5 @@
 require('should')
 const InstagramNodeApi = require('../')
-const errorHandler = require('../src/errors/error-handler')
 const mock = require('./mock/get-media.mock')
 
 const {

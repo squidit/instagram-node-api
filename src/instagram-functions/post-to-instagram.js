@@ -1,12 +1,11 @@
 const parseResponse = require('../parse-response')
 const got = require('got')
 
-function parseBodyToJsonObject(response){
-  try{
+function parseBodyToJsonObject (response) {
+  try {
     response.body = JSON.parse(response.body)
     return response
-  }
-  catch(e){
+  } catch (e) {
     return response
   }
 }

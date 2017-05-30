@@ -138,7 +138,7 @@ class InstagramNodeApi extends EventEmitter {
       .catch((error) => errorHandler(error, this))
   }
 
-  getMedia (idMedia){
+  getMedia (idMedia) {
     const url = `${baseUrl}/media/${idMedia}`
     const options = buildOptionsForGetMedia(defaultOptions, this.accessToken)
 

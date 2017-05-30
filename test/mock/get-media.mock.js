@@ -21,21 +21,21 @@ module.exports = function likeMediaMock () {
       })
       .reply(200, {
         data: {
-          type: "image",
+          type: 'image',
           user_has_liked: true,
           users_in_photo: [{
             user: {
-              username: "kevin",
-              full_name: "Kevin S",
-              id: "3",
-              profile_picture: "..."
+              username: 'kevin',
+              full_name: 'Kevin S',
+              id: '3',
+              profile_picture: '...'
             },
             position: {
-              "x": 0.315,
-              "y": 0.9111
+              'x': 0.315,
+              'y': 0.9111
             }
           }],
-          filter: "Walden",
+          filter: 'Walden',
           tags: [],
           comments: {
             count: 2
@@ -44,32 +44,32 @@ module.exports = function likeMediaMock () {
           likes: {
             count: 1
           },
-          link: "http://instagr.am/p/D/",
+          link: 'http://instagr.am/p/D/',
           user: {
-            username: "kevin",
-            full_name: "Kevin S",
-            profile_picture: "...",
-            id: "3"
+            username: 'kevin',
+            full_name: 'Kevin S',
+            profile_picture: '...',
+            id: '3'
           },
-          created_time: "1279340983",
+          created_time: '1279340983',
           images: {
             low_resolution: {
-              url: "http://distillery.s3.amazonaws.com/media/2010/07/16/4de37e03aa4b4372843a7eb33fa41cad_6.jpg",
+              url: 'http://distillery.s3.amazonaws.com/media/2010/07/16/4de37e03aa4b4372843a7eb33fa41cad_6.jpg',
               width: 306,
               height: 306
             },
             thumbnail: {
-              url: "http://distillery.s3.amazonaws.com/media/2010/07/16/4de37e03aa4b4372843a7eb33fa41cad_5.jpg",
+              url: 'http://distillery.s3.amazonaws.com/media/2010/07/16/4de37e03aa4b4372843a7eb33fa41cad_5.jpg',
               width: 150,
               height: 150
             },
             standard_resolution: {
-              url: "http://distillery.s3.amazonaws.com/media/2010/07/16/4de37e03aa4b4372843a7eb33fa41cad_7.jpg",
+              url: 'http://distillery.s3.amazonaws.com/media/2010/07/16/4de37e03aa4b4372843a7eb33fa41cad_7.jpg',
               width: 612,
               height: 612
             }
           },
-          id: "3",
+          id: '3',
           location: null
         }
       }, {

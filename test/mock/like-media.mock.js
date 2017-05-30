@@ -15,7 +15,7 @@ const baseUrl = `${instagramApiProtocol}://${instagramApiHost}/${instagramApiVer
 module.exports = function likeMediaMock () {
   beforeEach((done) => {
     nock(baseUrl)
-      .post('/media/1482874536541873956_1645525258/likes',{
+      .post('/media/1482874536541873956_1645525258/likes', {
         access_token: TEST_INSTAGRAM_ACCESS_TOKEN
       })
       .reply(200, {
