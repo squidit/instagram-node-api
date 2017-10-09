@@ -10,7 +10,7 @@ const {
 describe('like media', () => {
   mock()
 
-  it('should return meta propery with code 200', (done) => {
+  it('should return meta property with code 200', (done) => {
     const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
     instagramNodeApi.likeMedia(UID_MEDIA_TEST)
 
