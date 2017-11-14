@@ -1,6 +1,5 @@
 require('should')
 const InstagramNodeApi = require('../')
-const errorHandler = require('../src/errors/error-handler')
 
 const {
   TEST_INSTAGRAM_ACCESS_TOKEN

@@ -13,6 +13,7 @@ const emitMedias = require('./events/emit-medias')
 const emitLikedMedia = require('./events/emit-liked-media')
 const emitUsers = require('./events/emit-users')
 const emitTags = require('./events/emit-tags')
+const emitLocations = require('./events/emit-locations')
 const {
   INSTAGRAM_API_PROTOCOL: instagramApiProtocol,
   INSTAGRAM_API_HOST: instagramApiHost,
@@ -158,21 +159,21 @@ class InstagramNodeApi extends EventEmitter {
   }
 
   /* LOCATIONS */
-locationMediasRecent (locationId, dateLimitOrLimit, limitOrNull, nextUrl) {
-  const { dateLimit, limit } = buildParamsForMedia(dateLimitOrLimit, limitOrNull)
+  locationMediasRecent (locationId, dateLimitOrLimit, limitOrNull, nextUrl) {
+    const { dateLimit, limit } = buildParamsForMedia(dateLimitOrLimit, limitOrNull)
 
-  if (!locationId || isNaN(locationId)) {
-    this.emit('err', new Error('Invalid locationId'))
-    throw new Error('Invalid locationId')
+    if (!locationId || isNaN(locationId)) {
+      this.emit('err', new Error('Invalid locationId'))
+      throw new Error('Invalid locationId')
+    }
+    const url = nextUrl || `${baseUrl}/locations/${locationId}/media/recent`
+    const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken)
+
+    this._instagramCalled()
+    requestInstagram(url, options)
+      .then((params) => emitLocations(params, limit, dateLimit, locationId, this))
+      .catch((error) => errorHandler(error, this))
   }
-  const url = nextUrl || `${baseUrl}/locations/${locationId}/media/recent`
-  const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken)
-
-  this._instagramCalled()
-  requestInstagram(url, options)
-    .then((params) => emitTags(params, limit, dateLimit, tagName, this))
-    .catch((error) => errorHandler(error, this))
-}
 }
 
 module.exports = InstagramNodeApi
