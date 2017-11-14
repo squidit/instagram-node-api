@@ -156,6 +156,23 @@ class InstagramNodeApi extends EventEmitter {
       .then((params) => emitMedias(params, 0, null, this))
       .catch((error) => errorHandler(error, this))
   }
+
+  /* LOCATIONS */
+locationMediasRecent (locationId, dateLimitOrLimit, limitOrNull, nextUrl) {
+  const { dateLimit, limit } = buildParamsForMedia(dateLimitOrLimit, limitOrNull)
+
+  if (!locationId || isNaN(locationId)) {
+    this.emit('err', new Error('Invalid locationId'))
+    throw new Error('Invalid locationId')
+  }
+  const url = nextUrl || `${baseUrl}/locations/${locationId}/media/recent`
+  const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken)
+
+  this._instagramCalled()
+  requestInstagram(url, options)
+    .then((params) => emitTags(params, limit, dateLimit, tagName, this))
+    .catch((error) => errorHandler(error, this))
+}
 }
 
 module.exports = InstagramNodeApi
