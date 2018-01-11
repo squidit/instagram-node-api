@@ -25,9 +25,7 @@ const defaultOptions = { json: true }
 
 class InstagramNodeApi extends EventEmitter {
   constructor (accessToken) {
-    if (!accessToken) {
-      throw new Error('No accessToken informed')
-    }
+    if (!accessToken) throw new Error('No accessToken informed')
     super()
     this.accessToken = accessToken
     this.callsCount = 0
