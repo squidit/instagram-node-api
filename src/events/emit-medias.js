@@ -4,7 +4,7 @@ function emitMedias ([data, pagination, meta, remaining, instagramLimit], limit,
   const filteredData = limitDate ? data.filter(item => convertInstagramDate(item.created_time) >= limitDate) : data
   const continueByFilter = filteredData.length === data.length
 
-  instagramNodeApi._mediasFounded(filteredData.length)
+  instagramNodeApi._mediasFound(filteredData.length)
   instagramNodeApi.emit('data', filteredData, pagination, meta, remaining, instagramLimit, instagramNodeApi._buildResultObject())
 
   if (

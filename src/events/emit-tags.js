@@ -5,7 +5,7 @@ function emitTags ([data, pagination, meta, remaining, instagramLimit], limit, l
   const continueByFilter = filteredData.length
 
   if (continueByFilter) {
-    instagramNodeApi._mediasFounded(filteredData.length)
+    instagramNodeApi._mediasFound(filteredData.length)
     instagramNodeApi.emit('data', filteredData, pagination, meta, remaining, instagramLimit, instagramNodeApi._buildResultObject())
   }
 
