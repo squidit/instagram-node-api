@@ -14,15 +14,14 @@ const emitLikedMedia = require('./events/emit-liked-media')
 const emitUsers = require('./events/emit-users')
 const emitTags = require('./events/emit-tags')
 const emitLocations = require('./events/emit-locations')
+
 const {
   INSTAGRAM_API_PROTOCOL: instagramApiProtocol,
   INSTAGRAM_API_HOST: instagramApiHost,
   INSTAGRAM_API_VERSION: instagramApiVersion
 } = require('./constants')
 const baseUrl = `${instagramApiProtocol}://${instagramApiHost}/${instagramApiVersion}`
-const defaultOptions = {
-  json: true
-}
+const defaultOptions = { json: true }
 
 class InstagramNodeApi extends EventEmitter {
   constructor (accessToken) {
@@ -39,7 +38,7 @@ class InstagramNodeApi extends EventEmitter {
     this.callsCount += 1
   }
 
-  _mediasFounded (count) {
+  _mediasFound (count) {
     this.mediasCount += count
   }
 
