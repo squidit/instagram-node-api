@@ -72,7 +72,7 @@ class InstagramNodeApi extends EventEmitter {
     }
 
     const url = nextUrl || `${baseUrl}/users/${idUser}/media/recent`
-    const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken)
+    const options = buildOptionsForMedias(nextUrl, defaultOptions, this.accessToken, limit)
 
     this._instagramCalled()
     requestInstagram(url, options)
