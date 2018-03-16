@@ -76,21 +76,6 @@ describe('users media recent', () => {
       })
     })
 
-    it('limit to 7 should return 33 medias in 1 calls with null date limit', (done) => {
-      const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
-      instagramNodeApi.usersMediaRecent('30990380', 7)
-
-      instagramNodeApi.on('finish', (data, paginations, meta, remaining, limit, result) => {
-        try {
-          result.should.have.property('totalCalls', 1)
-          result.should.have.property('totalMedias', 33)
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
     it('limit to 35 should return 40 medias in 2 calls with null date limit', (done) => {
       const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
       instagramNodeApi.usersMediaRecent('30990380', 35)
@@ -129,21 +114,6 @@ describe('users media recent', () => {
         try {
           result.should.have.property('totalCalls', 2)
           result.should.have.property('totalMedias', 38)
-          done()
-        } catch (err) {
-          done(err)
-        }
-      })
-    })
-
-    it('due 2015-10-10 and limit 7 returns 33 medias in 1 call', (done) => {
-      const instagramNodeApi = new InstagramNodeApi(TEST_INSTAGRAM_ACCESS_TOKEN)
-      instagramNodeApi.usersMediaRecent('30990380', new Date('2015-10-10'), 7)
-
-      instagramNodeApi.on('finish', (data, paginations, meta, remaining, limit, result) => {
-        try {
-          result.should.have.property('totalCalls', 1)
-          result.should.have.property('totalMedias', 33)
           done()
         } catch (err) {
           done(err)

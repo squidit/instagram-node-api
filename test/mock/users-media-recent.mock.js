@@ -10,17 +10,17 @@ const { TEST_INSTAGRAM_ACCESS_TOKEN } = process.env
 
 const baseUrl = `${instagramApiProtocol}://${instagramApiHost}/${instagramApiVersion}`
 
-module.exports = function usersSelfMediaRecentMock () {
+module.exports = function usersSelfMediaRecentMock (count = 33) {
   beforeEach((done) => {
     nock(baseUrl)
       .get('/users/30990380/media/recent')
       .query({
         access_token: TEST_INSTAGRAM_ACCESS_TOKEN,
-        count: '33'
+        count
       })
       .reply(200, {
         pagination: {
-          next_url: `https://api.instagram.com/v1/users/30990380/media/recent?access_token=${TEST_INSTAGRAM_ACCESS_TOKEN}&count=33&max_id=1193500324263228984_30990380`,
+          next_url: `https://api.instagram.com/v1/users/30990380/media/recent?access_token=${TEST_INSTAGRAM_ACCESS_TOKEN}&count=${count}&max_id=1193500324263228984_30990380`,
           next_max_id: '1193500324263228984_30990380'
         },
         meta: {
